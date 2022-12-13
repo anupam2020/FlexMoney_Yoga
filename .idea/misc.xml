@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/drawable/button_bg_black.xml" value="0.224" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/drawable/button_bg_blue.xml" value="0.224" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.224" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/drawable/ic_outline_email_24.xml" value="0.224" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/drawable/ic_outline_lock_24.xml" value="0.224" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/layout/activity_main.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/FlexMoney_Yoga/app/src/main/res/layout/activity_splash.xml" value="0.23958333333333334" />
       </map>
     </option>
   </component>

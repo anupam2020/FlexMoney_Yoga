@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "287987025805",
+    "project_id": "flexmoney-yoga-ea958",
+    "storage_bucket": "flexmoney-yoga-ea958.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287987025805:android:9f4292d1f6c0dfa3d2dfc4",
+        "android_client_info": {
+          "package_name": "com.sbdev.flexmoney_yoga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287987025805-mseuep8gg8lfrji4dtqctd02e12gqpof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sbdev.flexmoney_yoga",
+            "certificate_hash": "7c3deb02e9140275ca0db8e4d5718c5b4dcc8b22"
+          }
+        },
+        {
+          "client_id": "287987025805-jtrmoau5e8lcivj4dtiamiekoum1rp7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgn93nwhC7M_Rd1bJCU5jl0gI51qSFg9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287987025805-jtrmoau5e8lcivj4dtiamiekoum1rp7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
