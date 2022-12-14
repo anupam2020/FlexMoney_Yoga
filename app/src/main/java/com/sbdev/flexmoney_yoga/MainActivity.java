@@ -1,28 +1,44 @@
 package com.sbdev.flexmoney_yoga;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     TextInputLayout nameLayout, ageLayout, emailLayout, passLayout;
     TextInputEditText nameText, ageText, emailText, passText;
     AppCompatButton create;
+
+    ProgressBar progressBar;
 
     FirebaseAuth firebaseAuth;
 
@@ -48,8 +64,16 @@ public class MainActivity extends AppCompatActivity {
 
         create=findViewById(R.id.mainCreateButton);
 
+        progressBar=findViewById(R.id.mainProgressBar);
+
         firebaseAuth=FirebaseAuth.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference();
+
+        if(firebaseAuth.getCurrentUser()!=null)
+        {
+            startActivity(new Intent(MainActivity.this,UsersActivity.class));
+            finishAffinity();
+        }
 
         ageText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                nameLayout.setErrorEnabled(false);
                 nameLayout.setError(null);
             }
 
@@ -93,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ageLayout.setErrorEnabled(false);
                 ageLayout.setError(null);
             }
 
@@ -110,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                emailLayout.setErrorEnabled(false);
                 emailLayout.setError(null);
             }
 
@@ -127,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passLayout.setErrorEnabled(false);
                 passLayout.setError(null);
             }
 
@@ -160,7 +188,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     if(isAgeValid(ageText.getText().toString()))
                     {
-                        Toast.makeText(MainActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.VISIBLE);
+                        storeDataToDB(nameText.getText().toString(),Integer.parseInt(ageText.getText().toString()),emailText.getText().toString(),passText.getText().toString());
                     }
                 }
             }
@@ -185,6 +214,58 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void storeDataToDB(String name, int age, String email, String pass)
+    {
+
+        firebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if(task.isSuccessful())
+                {
+                    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-MM-yyyy");
+                    Date d=new Date();
+                    String date=simpleDateFormat.format(d);
+
+                    HashMap map=new HashMap();
+                    map.put("Name",name);
+                    map.put("Age",age);
+                    map.put("Email",email);
+                    map.put("Date",date);
+                    databaseReference.child("Users").child(name).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(MainActivity.this, "Account successfully created!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(MainActivity.this,UsersActivity.class));
+
+                                progressBar.setVisibility(View.GONE);
+                                finishAffinity();
+                            }
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override

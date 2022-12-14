@@ -17,10 +17,15 @@
         android:theme="@style/Theme.FlexMoney_Yoga"
         tools:targetApi="31">
         <activity
+            android:name=".UsersActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/BlackTheme" />
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/BlackTheme"/>
+            android:theme="@style/BlackTheme" />
         <activity
             android:name=".Splash"
             android:exported="true"
